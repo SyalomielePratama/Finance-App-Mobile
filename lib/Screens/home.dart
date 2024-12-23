@@ -43,21 +43,14 @@ class _HomeState extends State<Home> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Transactions History',
+                              'Catatan Pengeluaran',
                               style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 19,
                                 color: Colors.black,
                               ),
                             ),
-                            Text(
-                              'See all',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                                color: Colors.grey,
-                              ),
-                            ),
+                            
                           ],
                         ),
                       ),
@@ -125,7 +118,7 @@ class _HomeState extends State<Home> {
               width: double.infinity,
               height: 240,
               decoration: BoxDecoration(
-                color: Color(0xff368983),
+                color: Color.fromARGB(255, 32, 91, 179),
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   bottomRight: Radius.circular(20),
@@ -156,7 +149,7 @@ class _HomeState extends State<Home> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Good afternoon',
+                          'Hello, Welcome',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
@@ -164,7 +157,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          'Enjelin Morgeana',
+                          'Syalomiele Pratama',
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
@@ -194,7 +187,7 @@ class _HomeState extends State<Home> {
                   spreadRadius: 6,
                 ),
               ],
-              color: Color.fromARGB(255, 47, 125, 121),
+              color: Color.fromARGB(255, 18, 54, 107),
               borderRadius: BorderRadius.circular(15),
             ),
             child: Column(
@@ -206,7 +199,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Total Balance',
+                        'Total Saldo',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 16,
@@ -226,7 +219,7 @@ class _HomeState extends State<Home> {
                   child: Row(
                     children: [
                       Text(
-                        '\$ ${total()}',
+                        '\Rp ${total()}',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
@@ -246,7 +239,7 @@ class _HomeState extends State<Home> {
                         children: [
                           CircleAvatar(
                             radius: 13,
-                            backgroundColor: Color.fromARGB(255, 85, 145, 141),
+                            backgroundColor: Color.fromARGB(255, 32, 91, 179),
                             child: Icon(
                               Icons.arrow_downward,
                               color: Colors.white,
@@ -255,7 +248,7 @@ class _HomeState extends State<Home> {
                           ),
                           SizedBox(width: 7),
                           Text(
-                            'Income',
+                            'Pemasukan',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -268,7 +261,7 @@ class _HomeState extends State<Home> {
                         children: [
                           CircleAvatar(
                             radius: 13,
-                            backgroundColor: Color.fromARGB(255, 85, 145, 141),
+                            backgroundColor: Color.fromARGB(255, 32, 91, 179),
                             child: Icon(
                               Icons.arrow_upward,
                               color: Colors.white,
@@ -277,7 +270,7 @@ class _HomeState extends State<Home> {
                           ),
                           SizedBox(width: 7),
                           Text(
-                            'Expenses',
+                            'Pengeluaran',
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
@@ -296,7 +289,7 @@ class _HomeState extends State<Home> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '\$ ${income()}',
+                        '\Rp ${income()}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,
@@ -304,7 +297,7 @@ class _HomeState extends State<Home> {
                         ),
                       ),
                       Text(
-                        '\$ ${expenses()}',
+                        '\Rp ${expenses()}',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 17,

@@ -12,7 +12,7 @@ class Bottom extends StatefulWidget {
 
 class _BottomState extends State<Bottom> {
   int index_color = 0;
-  List Screen = [Home(), Statistics(), Home(), Statistics()];
+  List Screen = [Home(), Statistics()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +23,7 @@ class _BottomState extends State<Bottom> {
               .push(MaterialPageRoute(builder: (context) => Add_Screen()));
         },
         child: Icon(Icons.add),
-        backgroundColor: Color(0xff368983),
+        backgroundColor: Color.fromARGB(255, 32, 91, 179),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
@@ -42,7 +42,7 @@ class _BottomState extends State<Bottom> {
                 child: Icon(
                   Icons.home,
                   size: 30,
-                  color: index_color == 0 ? Color(0xff368983) : Colors.grey,
+                  color: index_color == 0 ? Color.fromARGB(255, 32, 91, 179) : Colors.grey,
                 ),
               ),
               GestureDetector(
@@ -54,32 +54,7 @@ class _BottomState extends State<Bottom> {
                 child: Icon(
                   Icons.bar_chart_outlined,
                   size: 30,
-                  color: index_color == 1 ? Color(0xff368983) : Colors.grey,
-                ),
-              ),
-              SizedBox(width: 10),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    index_color = 2;
-                  });
-                },
-                child: Icon(
-                  Icons.account_balance_wallet_outlined,
-                  size: 30,
-                  color: index_color == 2 ? Color(0xff368983) : Colors.grey,
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    index_color = 3;
-                  });
-                },
-                child: Icon(
-                  Icons.person_outlined,
-                  size: 30,
-                  color: index_color == 3 ? Color(0xff368983) : Colors.grey,
+                  color: index_color == 1 ? Color.fromARGB(255, 32, 91, 179) : Colors.grey,
                 ),
               ),
             ],
