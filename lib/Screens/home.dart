@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:managment/data/listdata.dart';
 import 'package:managment/data/model/add_date.dart';
 import 'package:managment/data/utlity.dart';
+import 'package:managment/Screens/login.dart'; 
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -127,22 +128,31 @@ class _HomeState extends State<Home> {
               child: Stack(
                 children: [
                   Positioned(
-                    top: 35,
-                    left: 340,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        color: Color.fromRGBO(250, 250, 250, 0.1),
-                        child: Icon(
-                          Icons.notification_add_outlined,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+  top: 35,
+  left: 340,
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(7),
+    child: Container(
+      height: 40,
+      width: 40,
+      color: Color.fromRGBO(250, 250, 250, 0.1),
+      child: IconButton(
+        icon: Icon(
+          Icons.logout,
+          size: 30,
+          color: Colors.white,
+        ),
+        onPressed: () {
+          // Fungsi logout
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => Login()),
+          );
+        },
+      ),
+    ),
+  ),
+),
                   Padding(
                     padding: const EdgeInsets.only(top: 35, left: 10),
                     child: Column(
