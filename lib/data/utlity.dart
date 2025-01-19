@@ -7,33 +7,46 @@ final box = Hive.box<Add_data>('data');
 
 int total() {
   var history2 = box.values.toList();
-  List a = [0, 0];
+  int totals = 0;
   for (var i = 0; i < history2.length; i++) {
-    a.add(history2[i].IN == 'Income'
-        ? int.parse(history2[i].amount)
-        : int.parse(history2[i].amount) * -1);
+    int amount = int.parse(history2[i].amount);
+    if (amount < 0) {
+      throw Exception('Nilai jumlah tidak boleh negatif');
+    }
+    totals += history2[i].IN == 'Income' ? amount : -amount;
   }
-  totals = a.reduce((value, element) => value + element);
   return totals;
 }
 
 int income() {
   var history2 = box.values.toList();
-  List a = [0, 0];
+  int totals = 0;
   for (var i = 0; i < history2.length; i++) {
-    a.add(history2[i].IN == 'Income' ? int.parse(history2[i].amount) : 0);
+    int amount = int.parse(history2[i].amount);
+    if (amount < 0) {
+      throw Exception('Nilai jumlah tidak boleh negatif');
+    }
+    totals += history2[i].IN == 'Income' ? amount : 0;
   }
-  totals = a.reduce((value, element) => value + element);
   return totals;
 }
 
 int expenses() {
   var history2 = box.values.toList();
-  List a = [0, 0];
+  int totals = 0;
   for (var i = 0; i < history2.length; i++) {
-    a.add(history2[i].IN == 'Income' ? 0 : int.parse(history2[i].amount) * -1);
+    int amount = int.parse(history2[i].amount);
+    if (amount < 0) {
+      throw Exception('Nilai jumlah tidak boleh negatif');
+    }
+    if (history2[i].IN == 'Income') {
+      totals += 0;
+    } else {
+      // Menambahkan pajak 10% pada pengeluaran
+      int tax = (amount * 0.1).toInt();
+      totals += -amount - tax;
+    }
   }
-  totals = a.reduce((value, element) => value + element);
   return totals;
 }
 

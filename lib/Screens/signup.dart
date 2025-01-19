@@ -1,45 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:managment/Screens/signup.dart';
-import 'package:managment/widgets/bottomnavigationbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
+class SignUpScreen extends StatefulWidget {
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  Future<void> _login() async {
+  Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
       final username = _usernameController.text;
       final password = _passwordController.text;
+      final confirmPassword = _confirmPasswordController.text;
 
-      final prefs = await SharedPreferences.getInstance();
-      final storedUsername = prefs.getString('username');
-      final storedPassword = prefs.getString('password');
-
-      if (username == storedUsername && password == storedPassword) {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Bottom()));
-      } else {
+      if (password != confirmPassword) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Username atau password salah')),
+          SnackBar(
+              content: Text('Password dan konfirmasi password tidak sama')),
         );
+        return;
       }
-    }
-  }
 
-  void _goToSignUp() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SignUpScreen()),
-    );
+      // Simpan data pengguna menggunakan SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('username', username);
+      await prefs.setString('password', password);
+
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Registrasi Berhasil'),
+          content: Text('Akun Anda berhasil dibuat. Silakan login.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context); // Kembali ke halaman login
+              },
+              child: Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
   }
 
   @override
@@ -56,15 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
+            children: [
               SizedBox(height: 80),
-              // Logo or Icon
-              Icon(Icons.account_circle, size: 100, color: Colors.white),
+              // Icon atau Logo
+              Icon(Icons.person_add_alt_1, size: 100, color: Colors.white),
               SizedBox(height: 20),
               Text(
-                'Selamat Datang!',
+                'Buat Akun Baru',
                 style: TextStyle(
                   fontSize: 24,
                   color: Colors.white,
@@ -88,7 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             prefixIcon: Icon(Icons.person, color: Colors.blue),
                             labelText: 'Username',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -104,34 +112,49 @@ class _LoginScreenState extends State<LoginScreen> {
                             prefixIcon: Icon(Icons.lock, color: Colors.blue),
                             labelText: 'Password',
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
                           obscureText: true,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Password tidak boleh kosong';
                             }
+                            if (value.length < 6) {
+                              return 'Password harus minimal 6 karakter';
+                            }
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 15),
+                        TextFormField(
+                          controller: _confirmPasswordController,
+                          decoration: InputDecoration(
+                            prefixIcon:
+                                Icon(Icons.lock_outline, color: Colors.blue),
+                            labelText: 'Konfirmasi Password',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          obscureText: true,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Konfirmasi password tidak boleh kosong';
+                            }
                             return null;
                           },
                         ),
                         SizedBox(height: 20),
                         ElevatedButton(
-                          onPressed: _login,
+                          onPressed: _signUp,
                           style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             padding: const EdgeInsets.symmetric(
                                 vertical: 15, horizontal: 80),
                           ),
-                          child: Text('Login'),
-                        ),
-                        SizedBox(height: 10),
-                        TextButton(
-                          onPressed: _goToSignUp,
-                          child: Text(
-                            'Belum punya akun? Daftar di sini',
-                            style: TextStyle(color: Colors.blue.shade800),
-                          ),
+                          child: Text('Daftar'),
                         ),
                       ],
                     ),

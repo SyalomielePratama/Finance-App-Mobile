@@ -4,7 +4,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:managment/data/listdata.dart';
 import 'package:managment/data/model/add_date.dart';
 import 'package:managment/data/utlity.dart';
-import 'package:managment/Screens/login.dart'; 
+import 'package:managment/Screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  String _username = "User";
   var history;
   final box = Hive.box<Add_data>('data');
   final List<String> day = [
@@ -26,6 +28,18 @@ class _HomeState extends State<Home> {
     'sunday'
   ];
   @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _username = prefs.getString('username') ?? "User";
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -51,7 +65,6 @@ class _HomeState extends State<Home> {
                                 color: Colors.black,
                               ),
                             ),
-                            
                           ],
                         ),
                       ),
@@ -93,11 +106,25 @@ class _HomeState extends State<Home> {
           fontWeight: FontWeight.w600,
         ),
       ),
-      subtitle: Text(
-        '${day[history.datetime.weekday - 1]}  ${history.datetime.year}-${history.datetime.day}-${history.datetime.month}',
-        style: TextStyle(
-          fontWeight: FontWeight.w600,
-        ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '${day[history.datetime.weekday - 1]}  ${history.datetime.year}-${history.datetime.day}-${history.datetime.month}',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          SizedBox(height: 5), // Jarak kecil
+          Text(
+            '+ Rp1.500', // Teks tambahan
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              color: Colors.red, // Warna hijau untuk menandai positif
+            ),
+          ),
+        ],
       ),
       trailing: Text(
         history.amount,
@@ -128,31 +155,32 @@ class _HomeState extends State<Home> {
               child: Stack(
                 children: [
                   Positioned(
-  top: 35,
-  left: 340,
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(7),
-    child: Container(
-      height: 40,
-      width: 40,
-      color: Color.fromRGBO(250, 250, 250, 0.1),
-      child: IconButton(
-        icon: Icon(
-          Icons.logout,
-          size: 30,
-          color: Colors.white,
-        ),
-        onPressed: () {
-          // Fungsi logout
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => Login()),
-          );
-        },
-      ),
-    ),
-  ),
-),
+                    top: 35,
+                    left: 340,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        color: Color.fromRGBO(250, 250, 250, 0.1),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.logout,
+                            size: 30,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            // Fungsi logout
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(top: 35, left: 10),
                     child: Column(
@@ -167,7 +195,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                         Text(
-                          'Syalomiele Pratama',
+                          _username,
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 20,
